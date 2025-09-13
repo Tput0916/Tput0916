@@ -1,0 +1,21 @@
+# Ignore Python virtual environments
+/build_env/
+/venv/
+
+# Ignore PyInstaller build artifacts
+/build/
+/dist/
+*.spec
+
+# Ignore macOS specific files
+.DS_Store
+Thumbs.db
+
+# Ignore data files
+*.xlsx
+*.csv
+*.tst
+*.PNG
+
+# Ignore output directories
+/SportonAutoData_Output/
