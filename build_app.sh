@@ -69,7 +69,7 @@ pyinstaller \
     --hidden-import="tkinterdnd2" \
     --exclude-module "markupsafe._speedups" \
     --target-arch x86_64 \
-    "$PROJECT_ROOT/APP/target.py"
+    "$PROJECT_ROOT/demo/APP/target.py"
 
 # Check the build result
 if [ $? -eq 0 ]; then
