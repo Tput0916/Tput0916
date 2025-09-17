@@ -12,6 +12,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Debug - List all files
+      run: ls -R
+
     - name: Set up Python 3.9
       uses: actions/setup-python@v5
       with:
