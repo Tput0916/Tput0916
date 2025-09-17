@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-12 # Use a stable macOS version for building
+    runs-on: macos-latest # Use the latest available macOS version
 
     steps:
     - name: Checkout repository
