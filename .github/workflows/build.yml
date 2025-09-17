@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12 # Explicitly request an Intel-based runner
 
     steps:
     - name: Checkout repository
@@ -17,14 +17,14 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install dependencies for x86_64
+    - name: Install dependencies
       run: |
-        arch -x86_64 python3.9 -m pip install --upgrade pip
-        arch -x86_64 python3.9 -m pip install -r requirements.txt
+        python3.9 -m pip install --upgrade pip
+        python3.9 -m pip install -r requirements.txt
 
-    - name: Build with PyInstaller for x86_64
+    - name: Build with PyInstaller
       run: |
-        arch -x86_64 pyinstaller \
+        pyinstaller \
             --name "ThroughputAnalyzer" \
             --onedir \
             --windowed \
@@ -48,5 +48,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: MacOS-App
+        name: MacOS-App-Intel
         path: ${{ github.workspace }}/dist/ThroughputAnalyzer.zip
