@@ -1,21 +1,15 @@
 #!/bin/bash
 
-# Get the absolute path of the project root directory (the directory where the script is located)
-PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-VENV_DIR="$PROJECT_ROOT/build_env"
-REQUIREMENTS_FILE="$PROJECT_ROOT/requirements.txt"
+# --- This script is now designed to be run from the project root ---
 
-echo "Project Root: $PROJECT_ROOT"
+VENV_DIR="./build_env"
+REQUIREMENTS_FILE="./requirements.txt"
+
 echo "Virtual Environment: $VENV_DIR"
-
-# --- CRITICAL: Force remove the old virtual environment to ensure a clean slate ---
-echo "Removing old virtual environment to ensure a clean build..."
-rm -rf "$VENV_DIR"
 
 # --- New Step: Attempt to fix broken tkinter with Homebrew ---
 if command -v brew &> /dev/null; then
     echo "Homebrew detected. Attempting to fix tkinter installation..."
-    # This command is crucial to fix potential issues with Homebrew's Python and tkinter linkage.
     brew reinstall python-tk@3.9
     if [ $? -ne 0 ]; then
         echo "Warning: 'brew reinstall python-tk@3.9' failed. Continuing build, but GUI may fail if tkinter is broken."
@@ -59,8 +53,8 @@ pyinstaller \
     --name "ThroughputAnalyzer" \
     --onedir \
     --windowed \
-    --distpath "$PROJECT_ROOT/dist" \
-    --workpath "$PROJECT_ROOT/build" \
+    --distpath "./dist" \
+    --workpath "./build" \
     --clean \
     --noupx \
     --hidden-import="tkinter" \
@@ -69,12 +63,12 @@ pyinstaller \
     --hidden-import="tkinterdnd2" \
     --exclude-module "markupsafe._speedups" \
     --target-arch x86_64 \
-    "$PROJECT_ROOT/demo/APP/target.py"
+    "./demo/APP/target.py"
 
 # Check the build result
 if [ $? -eq 0 ]; then
     echo "Build successful!"
-    echo "The application is located in: $PROJECT_ROOT/dist"
+    echo "The application is located in: ./dist"
 else
     echo "Build failed. Please check the output above for errors."
 fi

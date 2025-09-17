@@ -21,7 +21,7 @@ jobs:
       run: |
         chmod +x build_app.sh
         ./build_app.sh
-      working-directory: . # Run from the project root
+      working-directory: .
 
     - name: Debug - List files in output directory
       run: ls -R dist
