@@ -40,8 +40,13 @@ jobs:
             --exclude-module "markupsafe._speedups" \
             "APP/target.py"
 
+    - name: Zip the application
+      run: |
+        cd ${{ github.workspace }}/dist
+        zip -r ThroughputAnalyzer.zip ThroughputAnalyzer.app
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: MacOS-App
-        path: ${{ github.workspace }}/dist/ThroughputAnalyzer.app
+        path: ${{ github.workspace }}/dist/ThroughputAnalyzer.zip
