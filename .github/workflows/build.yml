@@ -12,5 +12,36 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Debug - Find target.py
-      run: find . -name "target.py"
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller \
+            --name "ThroughputAnalyzer" \
+            --onedir \
+            --windowed \
+            --distpath "$GITHUB_WORKSPACE/dist" \
+            --workpath "$GITHUB_WORKSPACE/build" \
+            --clean \
+            --noupx \
+            --hidden-import="tkinter" \
+            --hidden-import="pandas" \
+            --hidden-import="matplotlib" \
+            --hidden-import="tkinterdnd2" \
+            --exclude-module "markupsafe._speedups" \
+            --target-arch x86_64 \
+            "APP/target.py"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: MacOS-App
+        path: ${{ github.workspace }}/dist/ThroughputAnalyzer.app
